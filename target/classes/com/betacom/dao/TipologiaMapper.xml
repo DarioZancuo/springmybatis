@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.betacom.dao.TipologiaMapper">
+  	<resultMap type="tipologia" id="result">
+  		<id property="id" column="id_categoria"/>
+  	  	<result property="tipo" column="tipo"/>
+  	</resultMap>
+  	
+  	<select id="getAllTipologie" resultMap="result">
+		SELECT DISTINCT * FROM categoria
+	</select>
+	
+	<select id="getByIdTipologia" resultMap="result">
+		SELECT DISTINCT * FROM categoria
+		WHERE id_categoria = #{id}
+	</select>
+	
+	<insert id="insertTipologia" parameterType="tipologia" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO categoria(tipo)
+		VALUES (#{tipo})
+	</insert>
+
+	<delete id="deleteTipologia" parameterType="int">
+		DELETE FROM categoria
+		WHERE id_categoria = #{id}
+	</delete>
+
+	<update id="updateTipologia" parameterType="tipologia">
+		UPDATE categoria
+		SET tipo = #{tipo}
+		WHERE id_categoria = #{id}
+	</update>
+ 
+ </mapper>

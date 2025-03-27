@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.betacom.dao.ContrattoMapper">
+  
+	<resultMap type="contratto" id="result">
+	    <id property="id" column="id_contratto"/>
+	    <result property="dataAssunzione" column="data_assunzione"/>
+	    <result property="stipendio" column="stipendio"/>
+	    <result property="dataDimissione" column="data_dimissione"/>
+	    <result property="status" column="status"/>    
+	    
+	    <association property="role" resultMap="com.betacom.dao.RoleMapper.result"/>    
+	    <association property="tipologia" resultMap="com.betacom.dao.TipologiaMapper.result"/>    
+	</resultMap>
+  	
+  	<select id="getByIdContratto" resultMap="result">
+	    SELECT 
+	        c.*, 
+	        r.id_ruolo, r.stipendio_minimo, r.descrizione, 
+	        cat.id_categoria, cat.tipo
+	    FROM contratto c
+	    LEFT JOIN ruolo r ON c.id_ruolo = r.id_ruolo
+	    LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
+	    WHERE c.id_contratto = #{id}
+	</select>
+	
+	<insert id="insertContratto" parameterType="contratto" keyProperty="id" useGeneratedKeys="true">
+    	INSERT INTO contratto (data_assunzione, stipendio, data_dimissione, status, id_ruolo, id_categoria)
+    	VALUES (#{dataAssunzione}, 
+    			#{stipendio}, 
+    			#{dataDimissione}, 
+    			#{status}, 
+    			#{role.id}, 
+    			#{tipologia.id})
+	</insert>
+	
+	<update id="assignContrattoToEmployee" parameterType="map">
+    	UPDATE employee
+    	SET id_contratto = #{idContratto}
+    	WHERE id = #{idEmployee}
+	</update>
+	
+	<update id="updateContratto" parameterType="contratto">
+	    UPDATE contratto
+	    SET data_assunzione = #{dataAssunzione},
+	        stipendio = #{stipendio},
+	        data_dimissione = #{dataDimissione},
+	        status = #{status},
+	        id_ruolo = #{role.id},
+	        id_categoria = #{tipologia.id}
+	    WHERE id_contratto = #{id}
+	</update>
+	
+	<update id="deleteContratto" parameterType="int">
+	    UPDATE contratto
+	    SET 
+	        status = #{status},
+	        data_dimissione = #{dataDimissione}
+	    WHERE id = #{id}
+	</update>
+ 
+ </mapper>

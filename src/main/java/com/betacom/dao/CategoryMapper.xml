@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.betacom.dao.CategoryMapper">
+
+	<resultMap type="category" id="result">
+		<id property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="descrizione" column="descrizione" />
+	</resultMap>	
+	
+	<select id="getAllCategories" resultMap="result">
+		SELECT DISTINCT * FROM descrizione
+	</select>
+
+	<select id="getAllByCode" resultMap="result">
+		SELECT * FROM descrizione WHERE code = #{code}
+	</select>
+	
+	<select id="getByIdCategory" resultMap="result">
+		SELECT * FROM descrizione
+		WHERE id = #{id}
+	</select>
+	
+	<insert id="insertCategory" parameterType="category" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO descrizione(code, descrizione)
+		VALUES (#{code}, #{descrizione})
+	</insert>
+
+	<update id="updateCategory" parameterType="category">
+		UPDATE descrizione
+		SET code = #{code}, descrizione = #{descrizione}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="int">
+		DELETE FROM descrizione
+		WHERE id = #{id}
+	</delete>
+	
+</mapper>

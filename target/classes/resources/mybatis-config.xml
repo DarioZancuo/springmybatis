@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+  <configuration>
+  
+  	<typeAliases>
+  		<typeAlias type="com.betacom.entity.Employee" alias="employee"/>
+  		<typeAlias type="com.betacom.entity.Category" alias="category"/>
+  		<typeAlias type="com.betacom.entity.Contratto" alias="contratto"/>
+  		<typeAlias type="com.betacom.entity.Role" alias="ruolo"/>
+  		<typeAlias type="com.betacom.entity.Tipologia" alias="tipologia"/> 		
+	</typeAliases>
+	
+	<environments default="development">
+  		<environment id="development">
+  			<transactionManager type="JDBC"/>
+  			<dataSource type="POOLED">
+  				<property name="driver" value="com.mysql.cj.jdbc.Driver"/> 
+  				<property name="url" value="jdbc:mysql://localhost:3306/db_balordo"/>
+  				<property name="username" value="root"/>
+  				<property name="password" value="root"/>
+  			</dataSource>
+  		</environment>	
+  	</environments>
+  	
+  	<mappers>
+  		<mapper resource="com/betacom/dao/EmployeeMapper.xml"/>
+  		<mapper resource="com/betacom/dao/CategoryMapper.xml"/>
+  		<mapper resource="com/betacom/dao/ContrattoMapper.xml"/>
+  		<mapper resource="com/betacom/dao/RoleMapper.xml"/>  		
+  		<mapper resource="com/betacom/dao/TipologiaMapper.xml"/>
+  	</mappers>
+  	
+  </configuration>
+  

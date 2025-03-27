@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.betacom.dao.EmployeeMapper">
+  	<resultMap type="employee" id="result">
+  	
+  		<id property="id" column="id"/>
+  	  	<result property="fullname" column="fullname"/>
+  	  	<result property="email" column="email"/>
+  	  	<result property="gender" column="gender"/>
+  	  	<result property="hobbies" column="hobbies"/>
+  	  	<result property="country" column="country"/>
+  	  	<result property="address" column="address"/> 
+  	  	
+  	  	<association property="contratto" resultMap="com.betacom.dao.ContrattoMapper.result"/>
+ 	  	 	  	
+  	</resultMap>
+  	
+	<select id="getAllEmployees" resultMap="result">
+	    SELECT 
+	        e.*, 
+	        c.id_contratto AS id_contratto, 
+	        c.data_assunzione, 
+	        c.stipendio, 
+	        c.data_dimissione, 
+	        c.status,
+	
+	        r.id_ruolo, 
+	        r.stipendio_minimo, 
+	        r.descrizione,
+	
+	        cat.id_categoria, 
+	        cat.tipo
+	
+	    FROM employee e
+	    LEFT JOIN contratto c ON e.id_contratto = c.id_contratto
+	    LEFT JOIN ruolo r ON c.id_ruolo = r.id_ruolo
+	    LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
+	</select>
+
+	<select id="getByIdEmployee" resultMap="result">
+	    SELECT 
+	        e.*, 
+	        c.id_contratto AS id_contratto, 
+	        c.data_assunzione, 
+	        c.stipendio, 
+	        c.data_dimissione, 
+	        c.status,
+	
+	        r.id_ruolo, 
+	        r.stipendio_minimo, 
+	        r.descrizione,
+	
+	        cat.id_categoria, 
+	        cat.tipo
+	
+	    FROM employee e
+	    LEFT JOIN contratto c ON e.id_contratto = c.id_contratto
+	    LEFT JOIN ruolo r ON c.id_ruolo = r.id_ruolo
+	    LEFT JOIN categoria cat ON c.id_categoria = cat.id_categoria
+	    WHERE e.id = #{id}
+	</select>
+
+	<select id="getEmployeeByFilter" resultMap="result" parameterType="com.betacom.util.SceltaFiltri">
+		SELECT 
+			e.*, 
+			c.`id_contratto`, 
+			c.`data_assunzione`, 
+			c.stipendio,
+			c.`data_dimissione`, 
+			c.status,
+			r.`id_ruolo`, 
+			r.`stipendio_minimo`, 
+			r.descrizione,
+			cat.`id_categoria`, 
+			cat.tipo
+		FROM employee e
+		JOIN contratto c ON e.`id_contratto` = c.`id_contratto`
+		JOIN ruolo r ON c.`id_ruolo` = r.`id_ruolo`
+		JOIN categoria cat ON c.`id_categoria` = cat.`id_categoria`
+		WHERE
+		
+		<choose>
+			<when test="input == 'status'">
+				c.status = #{value}
+			</when>
+			<when test="input == 'ruolo'">
+				r.descrizione = #{value}
+			</when>
+			<when test="input == 'tipologia'">
+				cat.tipo = #{value}
+			</when>
+			<when test="input == 'country'">
+				e.country = #{value}
+			</when>
+		</choose>
+	</select>
+	 	
+  	<insert id="insertEmployee" parameterType="employee" keyProperty="id" useGeneratedKeys="true">
+  		INSERT INTO employee(fullname, email, gender, hobbies, country, address, id_contratto) 
+  		VALUES (#{fullname}, 
+  				#{email}, 
+  				#{gender}, 
+  				#{hobbies}, 
+  				#{country}, 
+  				#{address}, 
+  				#{contratto.id})
+  	</insert>
+  	
+	<update id="updateEmployee" parameterType="employee">
+    	UPDATE employee 
+    <set>
+        fullname = #{fullname},
+        email = #{email},
+        gender = #{gender},
+        hobbies = #{hobbies},
+        country = #{country},
+        address = #{address}
+        
+        <if test="contratto != null and contratto.id != null">
+            , id_contratto = #{contratto.id}
+        </if>
+    </set>
+    	WHERE id = #{id}
+	</update>
+	
+  	<delete id="deleteEmployee" parameterType="int">
+    	DELETE FROM employee 
+    	WHERE id = #{id}
+	</delete>
+		
+  </mapper>

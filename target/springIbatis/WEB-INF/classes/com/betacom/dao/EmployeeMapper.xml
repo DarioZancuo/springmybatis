@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.betacom.dao.EmployeeMapper">
+  	<resultMap type="employee" id="result">
+  		<id property="id" column="id"/>
+  	  	<id property="fullname" column="fullname"/>
+  	  	<id property="email" column="email"/>
+  	  	<id property="gender" column="gender"/>
+  	  	<id property="hobbies" column="hobbies"/>
+  	  	<id property="country" column="country"/>
+  	  	<id property="address" column="address"/> 	
+  	</resultMap>
+  	
+  	<select id="getAllEmployees" resultMap="result" resultType="employee">
+  		SELECT * FROM employee
+  	</select>
+  </mapper>

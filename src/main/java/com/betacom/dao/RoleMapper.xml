@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.betacom.dao.RoleMapper">
+  	<resultMap type="ruolo" id="result">
+  		<id property="id" column="id_ruolo"/>
+  	  	<result property="stipendioMin" column="stipendio_minimo"/>
+  	  	<result property="descrizione" column="descrizione"/>
+  	</resultMap>
+  	
+  	<select id="getAllRoles" resultMap="result">
+		SELECT DISTINCT * FROM ruolo
+	</select>
+	
+	<select id="getByIdRole" resultMap="result">
+		SELECT DISTINCT * FROM ruolo
+		WHERE id_ruolo = #{id}
+	</select>
+	
+	<insert id="insertRole" parameterType="ruolo" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO ruolo(stipendio_minimo, descrizione)
+		VALUES (#{stipendioMin}, #{descrizione})
+	</insert>
+
+	<delete id="deleteRole" parameterType="int">
+		DELETE FROM ruolo
+		WHERE id_ruolo = #{id}
+	</delete>
+
+	<update id="updateRole" parameterType="ruolo">
+		UPDATE ruolo
+		SET stipendio_minimo = #{stipendioMin}, descrizione = #{descrizione}
+		WHERE id_ruolo = #{id}
+	</update>
+ 
+ </mapper>
