@@ -1,6 +1,5 @@
 package com.betacom.controller;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,17 +16,8 @@ public class RoleController {
 	RoleServices roleS;
 	
 	@RequestMapping("/showRoles")
-	public ModelAndView index() {
-	    ModelAndView mav = new ModelAndView("list-roles");
-
-	    try {
-	        List<Role> roles = roleS.getAll();
-	        mav.addObject("roles", roles);
-	    } catch (Exception e) {
-	        mav.addObject("error", e.getMessage());
-	    }
-
-	    return mav;
+	public String showRoles() {
+	    return "list-roles-ajax";
 	}
 	
     @RequestMapping("role/showFormAddRole")

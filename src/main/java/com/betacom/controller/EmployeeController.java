@@ -1,6 +1,5 @@
 package com.betacom.controller;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,7 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.betacom.entity.Employee;
 import com.betacom.services.interfaces.CategoryServices;
 import com.betacom.services.interfaces.EmployeeServices;
-import com.betacom.util.SceltaFiltri;
 
 @Controller
 public class EmployeeController {
@@ -23,39 +21,9 @@ public class EmployeeController {
     
     
     @RequestMapping("/showEmployees")
-    public ModelAndView index(@RequestParam(name = "error", required = false) String error,
-                              @RequestParam(name = "input", required = false) String input,
-                              @RequestParam(name = "value", required = false) String value) {
-
-        ModelAndView mav = new ModelAndView("list-employee");
-        List<Employee> employees;
-
-        try {
-            if (input != null && !input.isEmpty() && value != null && !value.isEmpty()) {
-                SceltaFiltri scelta = new SceltaFiltri();
-                scelta.setInput(input);
-                scelta.setValue(value);
-                employees = employeeS.getAllEmployeeByFilter(scelta); 
-            } else {
-                employees = employeeS.getAll();
-            }
-
-            mav.addObject("listEmployees", employees);
-
-        } catch (Exception e) {
-            mav.addObject("error", e.getMessage());
-        }
-
-        mav.addObject("scelta", new SceltaFiltri());
-        return mav;
+    public String showEmployees() {
+        return "list-employee-ajax";
     }
-
-	
-	@RequestMapping("filterEmployee")
-	public String filter(@ModelAttribute("scelta") SceltaFiltri scelta) {
-		
-		return "redirect:/showEmployees?input=" + scelta.getInput() + "&value=" + scelta.getValue();
-	}
 
     @RequestMapping("employee/showFormAddEmployee")
     public ModelAndView showFormAddEmployee(@RequestParam(name = "error", required = false) String error) throws Exception {

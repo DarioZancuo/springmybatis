@@ -1,6 +1,5 @@
 package com.betacom.controller;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,19 +15,9 @@ public class CategoryController {
     @Autowired
     CategoryServices categoryS;
     
-	@RequestMapping("/showCategories")
-    public ModelAndView index(@RequestParam("code") String code){
-        ModelAndView mav = new ModelAndView("list-categories");
-        
-        try {
-        	List<Category> categories = categoryS.getAllByCode(code);
-            mav.addObject("categories", categories);
-            mav.addObject("code", code);
-		} catch (Exception e) {
-			mav.addObject("error", e.getMessage());
-		}
-        
-        return mav;
+    @RequestMapping("/showCategories")
+    public String showCategories() {
+        return "list-categories-ajax";
     }
 	
 	@RequestMapping("category/showFormAddCategory")

@@ -62,13 +62,12 @@ public class RoleImplementation implements RoleServices {
 	
 	//supp
 	private void validatRole(Role r) throws Exception {		
+		
 		if(r.getStipendioMin()==null) 
 			throw new Exception("ERRORE: il campo stipendio minimo non può essere vuoto");
-		
-		
+				
 		if(r.getDescrizione()==null || r.getDescrizione().isEmpty()) 
 			throw new Exception("ERRORE: il campo descrizione non può essere vuoto");		
 	}
-
 
 }

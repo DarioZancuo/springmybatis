@@ -1,11 +1,7 @@
 package com.betacom.controller;
 
-import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,23 +27,14 @@ public class ContrattoController {
 	@Autowired
 	TipologiaServices tipologiaS;
 
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(java.sql.Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
-	}
+//	@InitBinder
+//	public void initBinder(WebDataBinder binder) {
+//		binder.registerCustomEditor(java.sql.Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+//	}
 
 	@RequestMapping("/showContratto")
-	public ModelAndView showContratto(@RequestParam("id") int id) {
-		ModelAndView mav = new ModelAndView("contratto");
-
-		try {
-			Contratto contratto = contrattoS.getById(id);
-			mav.addObject("contratto", contratto);
-		} catch (Exception e) {
-			mav.addObject("error", e.getMessage());
-		}
-
-		return mav;
+	public String showContratto() {
+	    return "contratto-ajax";
 	}
 
     @RequestMapping("contratto/showFormAddContratto")

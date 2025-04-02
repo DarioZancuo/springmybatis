@@ -1,16 +1,25 @@
 package com.betacom.entity;
 
 import java.sql.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Contratto {
 	
-	private Integer id;
-	private Date dataAssunzione;
+	private Integer id;	
 	private Role role;
 	private Double stipendio;
 	private Tipologia tipologia;
-	private Date dataDimissione;
 	private Boolean status;
+	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private Date dataAssunzione;
+	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private Date dataDimissione;
+	
 	
 	//Getters&Setters
 	public Integer getId() {
@@ -40,6 +49,7 @@ public class Contratto {
 	public Double getStipendio() {
 		return stipendio;
 	}
+	
 	public void setStipendio(Double stipendio) {
 		this.stipendio = stipendio;
 	}

@@ -123,5 +123,5 @@ public class ContrattoImplementation implements ContrattoServices{
 	    if (c.getStatus() == null) 
 	        throw new Exception("ERRORE: Devi specificare lo stato del contratto.");	   
 	}
-
+	
 }
